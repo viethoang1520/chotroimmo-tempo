@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import CartPopup from "@/components/cart/CartPopup";
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -17,6 +18,7 @@ interface MainLayoutProps {
 
 const MainLayout = ({ children, user = null }: MainLayoutProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const [isCartOpen, setIsCartOpen] = React.useState(false);
 
   const categories = [
     { name: "Software", href: "/category/software" },
@@ -35,6 +37,8 @@ const MainLayout = ({ children, user = null }: MainLayoutProps) => {
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
+      {/* Cart Popup */}
+      <CartPopup isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
       {/* Header */}
       <header className="sticky top-0 z-40 w-full border-b bg-background">
         <div className="container flex h-16 items-center justify-between px-4 sm:px-6">
@@ -70,12 +74,16 @@ const MainLayout = ({ children, user = null }: MainLayoutProps) => {
 
           {/* User Actions */}
           <div className="flex items-center space-x-4">
-            <Link to="/cart" className="relative">
+            <button
+              onClick={() => setIsCartOpen(true)}
+              className="relative"
+              aria-label="Open shopping cart"
+            >
               <ShoppingCart className="h-6 w-6 text-muted-foreground hover:text-primary transition-colors" />
               <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground">
-                0
+                2
               </span>
-            </Link>
+            </button>
 
             {user ? (
               <div className="flex items-center space-x-2">
