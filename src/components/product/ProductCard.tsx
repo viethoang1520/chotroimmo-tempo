@@ -18,6 +18,10 @@ interface ProductCardProps {
   seller: string;
   category: string;
   inStock: boolean;
+  description?: string;
+  views?: number;
+  purchases?: number;
+  preOrderAmount?: number;
   onAddToCart?: (id: string) => void;
   onViewDetails?: (id: string) => void;
 }
@@ -31,6 +35,10 @@ const ProductCard = ({
   seller = "TopSeller",
   category = "Accounts",
   inStock = true,
+  description = "Tài khoản MMO cao cấp với nhiều tính năng đặc biệt và quyền lợi độc quyền cho người dùng.",
+  views = 120,
+  purchases = 24,
+  preOrderAmount = 0,
   onAddToCart,
   onViewDetails,
 }: ProductCardProps) => {
@@ -43,7 +51,7 @@ const ProductCard = ({
   };
 
   return (
-    <Card className="w-full max-w-[280px] overflow-hidden transition-all duration-300 hover:shadow-lg bg-white">
+    <Card className="w-full max-w-[280px] overflow-hidden transition-all duration-300 hover:shadow-lg bg-white rounded-xl shadow-sm">
       <div className="relative">
         <img src={image} alt={title} className="h-40 w-full object-cover" />
         <Badge
@@ -55,6 +63,14 @@ const ProductCard = ({
         <Badge variant="secondary" className="absolute top-2 left-2">
           {category}
         </Badge>
+        {preOrderAmount > 0 && (
+          <Badge
+            variant="outline"
+            className="absolute bottom-2 right-2 bg-amber-100 text-amber-800 border-amber-300"
+          >
+            Đã lăng cọc: {preOrderAmount.toLocaleString()}đ
+          </Badge>
+        )}
       </div>
 
       <CardHeader className="p-4 pb-0">
@@ -68,8 +84,19 @@ const ProductCard = ({
         </div>
       </CardHeader>
 
-      <CardContent className="p-4 pt-2">
+      <CardContent className="p-4 pt-2 space-y-2">
+        <p className="text-sm text-gray-600 line-clamp-2">{description}</p>
         <p className="text-xl font-bold text-primary">${price.toFixed(2)}</p>
+        <div className="flex items-center justify-between text-xs text-gray-500 pt-1">
+          <div className="flex items-center">
+            <Eye className="h-3 w-3 mr-1" />
+            <span>{views.toLocaleString()}</span>
+          </div>
+          <div className="flex items-center">
+            <ShoppingCart className="h-3 w-3 mr-1" />
+            <span>{purchases.toLocaleString()}</span>
+          </div>
+        </div>
       </CardContent>
 
       <CardFooter className="p-4 pt-0 flex gap-2">

@@ -13,6 +13,7 @@ interface MainLayoutProps {
     name: string;
     role: "admin" | "collaborator" | "customer" | "guest";
     avatar?: string;
+    balance?: number;
   };
 }
 
@@ -60,17 +61,8 @@ const MainLayout = ({ children, user = null }: MainLayoutProps) => {
             ))}
           </nav>
 
-          {/* Search */}
-          <div className="hidden md:flex w-full max-w-sm items-center space-x-2 mx-4">
-            <div className="relative w-full">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Search products..."
-                className="w-full pl-8"
-              />
-            </div>
-          </div>
+          {/* Navigation spacer */}
+          <div className="hidden md:block flex-grow"></div>
 
           {/* User Actions */}
           <div className="flex items-center space-x-4">
@@ -93,9 +85,16 @@ const MainLayout = ({ children, user = null }: MainLayoutProps) => {
                 </Avatar>
                 <div className="hidden md:block">
                   <p className="text-sm font-medium">{user.name}</p>
-                  <p className="text-xs text-muted-foreground capitalize">
-                    {user.role}
-                  </p>
+                  <div className="flex items-center space-x-2">
+                    <p className="text-xs text-muted-foreground capitalize">
+                      {user.role}
+                    </p>
+                    {user.balance !== undefined && (
+                      <p className="text-xs font-medium text-green-600">
+                        Số dư: {user.balance?.toLocaleString()}đ
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             ) : (
@@ -121,16 +120,6 @@ const MainLayout = ({ children, user = null }: MainLayoutProps) => {
                 <div className="flex flex-col space-y-6 py-4">
                   <div className="flex items-center justify-between">
                     <span className="text-lg font-bold">Menu</span>
-                  </div>
-
-                  {/* Mobile Search */}
-                  <div className="relative w-full">
-                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      type="search"
-                      placeholder="Search products..."
-                      className="w-full pl-8"
-                    />
                   </div>
 
                   {/* Mobile Navigation */}
@@ -167,9 +156,16 @@ const MainLayout = ({ children, user = null }: MainLayoutProps) => {
                         </Avatar>
                         <div>
                           <p className="text-sm font-medium">{user.name}</p>
-                          <p className="text-xs text-muted-foreground capitalize">
-                            {user.role}
-                          </p>
+                          <div className="flex flex-col">
+                            <p className="text-xs text-muted-foreground capitalize">
+                              {user.role}
+                            </p>
+                            {user.balance !== undefined && (
+                              <p className="text-xs font-medium text-green-600">
+                                Số dư: {user.balance?.toLocaleString()}đ
+                              </p>
+                            )}
+                          </div>
                         </div>
                       </div>
                       <Button variant="outline" asChild>

@@ -21,6 +21,11 @@ interface Product {
   rating: number;
   seller: string;
   category: string;
+  description?: string;
+  views?: number;
+  purchases?: number;
+  preOrderAmount?: number;
+  inStock?: boolean;
 }
 
 interface ProductGridProps {
@@ -241,7 +246,21 @@ const ProductGrid = ({
       {filteredProducts.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard
+              key={product.id}
+              id={product.id}
+              title={product.title}
+              price={product.price}
+              image={product.image}
+              rating={product.rating}
+              seller={product.seller}
+              category={product.category}
+              description={product.description}
+              views={product.views}
+              purchases={product.purchases}
+              preOrderAmount={product.preOrderAmount}
+              inStock={product.inStock !== undefined ? product.inStock : true}
+            />
           ))}
         </div>
       ) : (
@@ -282,6 +301,12 @@ const defaultProducts: Product[] = [
     rating: 4.5,
     seller: "SEO Master",
     category: "software",
+    description:
+      "Phần mềm SEO cao cấp với các tính năng phân tích từ khóa, theo dõi thứ hạng và tối ưu hóa nội dung.",
+    views: 1250,
+    purchases: 87,
+    preOrderAmount: 50000,
+    inStock: true,
   },
   {
     id: "2",
@@ -292,6 +317,12 @@ const defaultProducts: Product[] = [
     rating: 4.2,
     seller: "Digital Marketing Pro",
     category: "software",
+    description:
+      "Công cụ quản lý mạng xã hội toàn diện giúp lập lịch đăng bài, phân tích hiệu suất và tương tác với người dùng.",
+    views: 980,
+    purchases: 65,
+    preOrderAmount: 0,
+    inStock: true,
   },
   {
     id: "3",

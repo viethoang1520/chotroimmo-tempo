@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Star, ShoppingCart, Eye, Clock, Package } from "lucide-react";
+import { Star, ShoppingCart, Eye, Clock, Package, Youtube } from "lucide-react";
+import YouTubeModal from "@/components/ui/YouTubeModal";
 
 interface ProductDetailsProps {
   id?: string;
@@ -16,6 +17,7 @@ interface ProductDetailsProps {
   salesCount?: number;
   viewsCount?: number;
   remainingQuantity?: number;
+  videoId?: string;
   onAddToCart?: (id: string) => void;
   onBuyNow?: (id: string) => void;
 }
@@ -35,13 +37,24 @@ const ProductDetails = ({
   remainingQuantity = 5,
   onAddToCart = () => {},
   onBuyNow = () => {},
+  videoId = "dQw4w9WgXcQ",
 }: ProductDetailsProps) => {
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+
   const handleAddToCart = () => {
     onAddToCart(id);
   };
 
   const handleBuyNow = () => {
     onBuyNow(id);
+  };
+
+  const handleOpenVideoModal = () => {
+    setIsVideoModalOpen(true);
+  };
+
+  const handleCloseVideoModal = () => {
+    setIsVideoModalOpen(false);
   };
 
   return (
@@ -130,6 +143,23 @@ const ProductDetails = ({
               Buy Now
             </Button>
           </div>
+
+          <div className="mt-4">
+            <Button
+              variant="secondary"
+              className="w-full"
+              onClick={handleOpenVideoModal}
+            >
+              <Youtube className="h-5 w-5 mr-2" />
+              Xem video hướng dẫn
+            </Button>
+          </div>
+
+          <YouTubeModal
+            isOpen={isVideoModalOpen}
+            onClose={handleCloseVideoModal}
+            videoId={videoId}
+          />
         </div>
       </div>
     </div>
